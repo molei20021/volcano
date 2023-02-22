@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-FROM alpine:latest
+FROM ubuntu:18.04-gcc
 
 ADD vc-scheduler /vc-scheduler
 ENTRYPOINT ["/vc-scheduler"]
