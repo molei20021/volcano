@@ -36,7 +36,7 @@ func New(arguments framework.Arguments) framework.Plugin {
 }
 
 func (mp *magicPlugin) OnSessionOpen(ssn *framework.Session) {
-	klog.V(4).Info("Enter magic plugin ...")
+	klog.V(3).Info("Enter magic plugin ...")
 }
 
 func (mp *magicPlugin) OnSessionClose(ssn *framework.Session) {}
