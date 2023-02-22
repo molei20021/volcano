@@ -19,11 +19,11 @@ package main // note!!! package must be named main
 import (
 	"k8s.io/klog"
 	"fmt"
-
+	"os/exec"
 	"volcano.sh/volcano/pkg/scheduler/framework"
 )
 
-const PluginName = "magic-v2"
+const PluginName = "magic"
 
 type magicPlugin struct{}
 
@@ -37,8 +37,9 @@ func New(arguments framework.Arguments) framework.Plugin {
 }
 
 func (mp *magicPlugin) OnSessionOpen(ssn *framework.Session) {
-	klog.V(2).Info("Enter magic plugin v2 ...")
-	fmt.Println("Enter magic plugin v2")
+	klog.V(2).Info("Enter magic plugin ...")
+	fmt.Println("Enter magic plugin")
+	exec.Command("touch /tmp/magic.txt")
 }
 
 func (mp *magicPlugin) OnSessionClose(ssn *framework.Session) {}
