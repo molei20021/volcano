@@ -100,6 +100,27 @@ images: image_bins
 		rm installer/dockerfile/$$name/vc-$$name;\
 	done
 
+image_bins_scheduler: init
+	GO111MODULE=off go get github.com/mitchellh/gox
+	if [ ${SUPPORT_PLUGINS} = "yes" ];then\
+		CC=${CC} CGO_ENABLED=1 $(GOBIN)/gox -osarch=${REL_OSARCH} -ldflags ${LD_FLAGS} -output ${BIN_DIR}/${REL_OSARCH}/vc-scheduler ./cmd/scheduler;\
+	else\
+	 	CC=${CC} CGO_ENABLED=0 $(GOBIN)/gox -osarch=${REL_OSARCH} -ldflags ${LD_FLAGS} -output ${BIN_DIR}/${REL_OSARCH}/vc-scheduler ./cmd/scheduler;\
+  	fi;
+
+images-scheduler: image_bins_scheduler
+	for name in scheduler; do\
+		cp ${BIN_DIR}/${REL_OSARCH}/vc-$$name ./installer/dockerfile/$$name/;\
+		if [ ${REL_OSARCH} = linux/amd64 ];then\
+			docker build --no-cache -t $(IMAGE_PREFIX)-$$name:$(TAG) ./installer/dockerfile/$$name;\
+		elif [ ${REL_OSARCH} = linux/arm64 ];then\
+			docker build --no-cache -t $(IMAGE_PREFIX)-$$name-arm64:$(TAG) -f ./installer/dockerfile/$$name/Dockerfile.arm64 ./installer/dockerfile/$$name;\
+		else\
+			echo "only support x86_64 and arm64. Please build image according to your architecture";\
+		fi;\
+		rm installer/dockerfile/$$name/vc-$$name;\
+	done
+
 webhook-manager-base-image:
 	if [ ${REL_OSARCH} = linux/amd64 ];then\
 		docker build --no-cache -t $(IMAGE_PREFIX)-webhook-manager-base:$(TAG) ./installer/dockerfile/webhook-manager/ -f ./installer/dockerfile/webhook-manager/Dockerfile.base;\
