@@ -22,7 +22,7 @@ import (
 	"volcano.sh/volcano/pkg/scheduler/framework"
 )
 
-const PluginName = "magic"
+const PluginName = "magic-v2"
 
 type magicPlugin struct{}
 
@@ -36,7 +36,7 @@ func New(arguments framework.Arguments) framework.Plugin {
 }
 
 func (mp *magicPlugin) OnSessionOpen(ssn *framework.Session) {
-	klog.V(3).Info("Enter magic plugin ...")
+	klog.V(3).Info("Enter magic plugin v2 ...")
 }
 
 func (mp *magicPlugin) OnSessionClose(ssn *framework.Session) {}
