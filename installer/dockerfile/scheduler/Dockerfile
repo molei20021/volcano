@@ -13,8 +13,7 @@
 # limitations under the License.
 
 
-FROM ubuntu:18.04
-RUN apt-get update
-RUN apt-get install -y build-essential
+FROM ubuntu:18.04-gcc
+
 ADD vc-scheduler /vc-scheduler
 ENTRYPOINT ["/vc-scheduler"]
